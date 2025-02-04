@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-register',
@@ -18,7 +19,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class RegisterComponent {
   registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private localStorageService: LocalStorageService) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -28,7 +29,8 @@ export class RegisterComponent {
       address: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       birthDate: ['', Validators.required],
-      profilePhoto: [null]
+      profilePhoto: [null],
+      role: ['particular'],
     }, { validators: this.passwordMatchValidator });
   }
   passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -41,7 +43,15 @@ export class RegisterComponent {
   }
   onSubmit() {
     if (this.registerForm.valid) {
-      console.log('Form Submitted', this.registerForm.value);
+      const particulars = this.localStorageService.getItem('particulars') || [];
+      const nextId = particulars.length + 1;
+      const newParticular = {
+        id: nextId,
+        ...this.registerForm.value
+      };
+      particulars.push(newParticular);
+      this.localStorageService.setItem('particulars', particulars);
+      console.log('Particular registered and saved to local storage', newParticular);
     }else{
       console.log('Form Invalid', this.registerForm.value);
     }
