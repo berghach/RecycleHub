@@ -1,6 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -9,6 +9,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     ReactiveFormsModule,
     RouterLink,
     RouterLinkActive,
+    CommonModule,
   ],
   // standalone: false,
   templateUrl: './register.component.html',
@@ -24,7 +25,7 @@ export class RegisterComponent {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       address: ['', Validators.required],
-      phone: ['', Validators.required],
+      phone: ['', Validators.required, Validators.pattern('^[0-9]*$')],
       birthDate: ['', Validators.required],
       profilePhoto: [null]
     });
@@ -32,6 +33,8 @@ export class RegisterComponent {
   onSubmit() {
     if (this.registerForm.valid) {
       console.log('Form Submitted', this.registerForm.value);
+    }else{
+      console.log('Form Invalid', this.registerForm.value);
     }
   }
 }
