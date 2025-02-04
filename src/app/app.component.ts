@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LocalStorageService } from './services/local-storage.service';
-import { preRegisteredCollectors } from './services/collectors';
+import { preRegisteredUsers } from './services/users';
 
 @Component({
   selector: 'app-root',
@@ -16,9 +16,9 @@ export class AppComponent {
   constructor(private localStorageService: LocalStorageService) {}
 
   ngOnInit() {
-    const collectors = this.localStorageService.getItem('collectors');
-    if (!collectors) {
-      this.localStorageService.setItem('collectors', preRegisteredCollectors);
+    const Users = this.localStorageService.getItem('users');
+    if (!Users) {
+      this.localStorageService.setItem('users', preRegisteredUsers);
     }
   }
 }

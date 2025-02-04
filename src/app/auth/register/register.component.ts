@@ -43,15 +43,15 @@ export class RegisterComponent {
   }
   onSubmit() {
     if (this.registerForm.valid) {
-      const particulars = this.localStorageService.getItem('particulars') || [];
-      const nextId = particulars.length + 1;
-      const newParticular = {
+      const users = this.localStorageService.getItem('users') || [];
+      const nextId = users.length + 1;
+      const newUser = {
         id: nextId,
         ...this.registerForm.value
       };
-      particulars.push(newParticular);
-      this.localStorageService.setItem('particulars', particulars);
-      console.log('Particular registered and saved to local storage', newParticular);
+      users.push(newUser);
+      this.localStorageService.setItem('users', users);
+      console.log('Particular registered and saved to local storage', newUser);
     }else{
       console.log('Form Invalid', this.registerForm.value);
     }
