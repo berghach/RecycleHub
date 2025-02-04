@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -22,13 +22,22 @@ export class RegisterComponent {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       address: ['', Validators.required],
-      phone: ['', Validators.required, Validators.pattern('^[0-9]*$')],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       birthDate: ['', Validators.required],
       profilePhoto: [null]
-    });
+    }, { validators: this.passwordMatchValidator });
+  }
+  passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+    if (password && confirmPassword && password.value !== confirmPassword.value) {
+      return { 'passwordMismatch': true };
+    }
+    return null;
   }
   onSubmit() {
     if (this.registerForm.valid) {
