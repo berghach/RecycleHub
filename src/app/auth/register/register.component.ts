@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { LocalStorageService } from '../../services/local-storage.service';
+import { HashService } from '../../services/hash.service.service';
+import { profile } from 'console';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +21,11 @@ import { LocalStorageService } from '../../services/local-storage.service';
 export class RegisterComponent {
   registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private localStorageService: LocalStorageService) {
+  constructor(
+    private fb: FormBuilder, 
+    private localStorageService: LocalStorageService,
+    private hashService: HashService
+  ) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -30,7 +36,6 @@ export class RegisterComponent {
       phone: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       birthDate: ['', Validators.required],
       profilePhoto: [null],
-      role: ['particular'],
     }, { validators: this.passwordMatchValidator });
   }
   passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -41,14 +46,26 @@ export class RegisterComponent {
     }
     return null;
   }
-  onSubmit() {
+  async onSubmit() {
     if (this.registerForm.valid) {
       const users = this.localStorageService.getItem('users') || [];
       const nextId = users.length + 1;
+
+      const hashedPassword = await this.hashService.hashPassword(this.registerForm.get('password')!.value);
+      
       const newUser = {
         id: nextId,
-        ...this.registerForm.value
+        email: this.registerForm.value.email,
+        firstName: this.registerForm.value.firstName,
+        lastName: this.registerForm.value.lastName,
+        address: this.registerForm.value.address,
+        phone: this.registerForm.value.phone,
+        birthDate: this.registerForm.value.birthDate,
+        profilePhoto: this.registerForm.value.profilePhoto,
+        password: hashedPassword,
+        role: 'particular',
       };
+
       users.push(newUser);
       this.localStorageService.setItem('users', users);
       console.log('Particular registered and saved to local storage', newUser);
