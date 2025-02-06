@@ -1,0 +1,73 @@
+<div class="max-w-xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold mb-6 text-center">Manage Profile</h2>
+  
+    <div *ngIf="!isEditing">
+      <div class="flex items-center justify-center mb-4">
+        <img *ngIf="user?.profilePhoto" [src]="user.profilePhoto" alt="Profile Photo" class="w-24 h-24 rounded-full">
+        <div *ngIf="!user?.profilePhoto" class="w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center text-2xl text-gray-600">
+          {{ user?.firstName.charAt(0) }}{{ user?.lastName.charAt(0) }}
+        </div>
+      </div>
+  
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">First Name</label>
+        <p class="mt-1 text-gray-900">{{ user?.firstName }}</p>
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Last Name</label>
+        <p class="mt-1 text-gray-900">{{ user?.lastName }}</p>
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Email</label>
+        <p class="mt-1 text-gray-900">{{ user?.email }}</p>
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Phone</label>
+        <p class="mt-1 text-gray-900">{{ user?.phone }}</p>
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Address</label>
+        <p class="mt-1 text-gray-900">{{ user?.address }}</p>
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Birth Date</label>
+        <p class="mt-1 text-gray-900">{{ user?.birthDate }}</p>
+      </div>
+  
+      <button (click)="toggleEdit()" class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Edit profile</button>
+    </div>
+  
+    <form *ngIf="isEditing" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
+        <input id="firstName" formControlName="firstName" type="text" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      </div>
+      <div class="mb-4">
+        <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
+        <input id="lastName" formControlName="lastName" type="text" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      </div>
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <input id="email" formControlName="email" type="text" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      </div>
+      <div class="mb-4">
+        <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
+        <input id="phone" formControlName="phone" type="text" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      </div>
+      <div class="mb-4">
+        <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+        <input id="address" formControlName="address" type="text" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      </div>
+      <div class="mb-4">
+        <label for="birthDate" class="block text-sm font-medium text-gray-700">Birth Date</label>
+        <input id="birthDate" formControlName="birthDate" type="date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      </div>
+      <div class="mb-4">
+        <label for="profilePhoto" class="block text-sm font-medium text-gray-700">Profile Photo URL</label>
+        <input id="profilePhoto" formControlName="profilePhoto" type="text" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      </div>
+  
+      <button type="submit" class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Save</button>
+      <button type="button" (click)="toggleEdit()" class="w-full mt-2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Cancel</button>
+    </form>
+  </div>
