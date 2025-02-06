@@ -2,9 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { LocalStorageService } from '../../services/local-storage.service';
-import { HashService } from '../../services/hash.service.service';
-import { profile } from 'console';
+import { RegisterService } from '../../services/auth/register.service';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +12,6 @@ import { profile } from 'console';
     RouterLinkActive,
     CommonModule,
   ],
-  // standalone: false,
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -23,8 +20,7 @@ export class RegisterComponent {
 
   constructor(
     private fb: FormBuilder, 
-    private localStorageService: LocalStorageService,
-    private hashService: HashService
+    private registerService: RegisterService,
   ) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -48,27 +44,11 @@ export class RegisterComponent {
   }
   async onSubmit() {
     if (this.registerForm.valid) {
-      const users = this.localStorageService.getItem('users') || [];
-      const nextId = users.length + 1;
-
-      const hashedPassword = await this.hashService.hashPassword(this.registerForm.get('password')!.value);
-      
-      const newUser = {
-        id: nextId,
-        email: this.registerForm.value.email,
-        firstName: this.registerForm.value.firstName,
-        lastName: this.registerForm.value.lastName,
-        address: this.registerForm.value.address,
-        phone: this.registerForm.value.phone,
-        birthDate: this.registerForm.value.birthDate,
-        profilePhoto: this.registerForm.value.profilePhoto,
-        password: hashedPassword,
-        role: 'particular',
-      };
-
-      users.push(newUser);
-      this.localStorageService.setItem('users', users);
-      console.log('Particular registered and saved to local storage', newUser);
+      try {
+        await this.registerService.register(this.registerForm);
+      } catch (error) {
+        console.error('Registration failed', error);
+      }
     }else{
       console.log('Form Invalid', this.registerForm.value);
     }
