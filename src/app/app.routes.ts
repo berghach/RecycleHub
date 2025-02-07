@@ -6,15 +6,15 @@ import { AuthGuard } from './guards/auth.guard';
 import { CollectionsListComponent } from './collection/collections-list/collections-list.component';
 import { CollectionFormComponent } from './collection/collection-form/collection-form.component';
 import { CollectionDetailComponent } from './collection/collection-detail/collection-detail.component';
+import { ParticularGuard } from './guards/particular.guard';
 
-// Define the routes
 
 export const routes: Routes = [
     { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
 
-    { path: 'collections', component: CollectionsListComponent },
-    { path: 'collection/request/:id', component: CollectionFormComponent },
-    { path: 'collection/request-detail/:id', component: CollectionDetailComponent },
+    { path: 'collections', component: CollectionsListComponent, canActivate: [AuthGuard] },
+    { path: 'collection/request/:id', component: CollectionFormComponent, canActivate: [ParticularGuard] },
+    { path: 'collection/request-detail/:id', component: CollectionDetailComponent, canActivate: [AuthGuard] },
     
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
