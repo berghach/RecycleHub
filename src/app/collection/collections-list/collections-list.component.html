@@ -1,2 +1,25 @@
-<p>collections-list works!</p>
-<a routerLink="/collection/request/new" routerLinkActive="active">+ Add</a>
+<div class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-semibold">{{ loggedInUser.role === 'particular' ? 'My Collection Requests' : 'Collection Requests'}}</h2>
+      <a *ngIf="loggedInUser.role === 'particular'" routerLink="/collection/request/new" routerLinkActive="active" class="py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">+ Add</a>
+    </div>
+  
+    <div *ngIf="collections.length === 0" class="text-center text-gray-500">No collection requests found.</div>
+  
+    <div *ngFor="let collection of collections" class="border-b border-gray-200 py-4">
+      <div class="flex justify-between items-center">
+        <div>
+          <div class="text-lg font-semibold">{{ collection.wasteType }}</div>
+          <div class="text-sm text-gray-500">{{ collection.estimatedWeight }}g, {{ collection.collectionDate }} {{ collection.collectionTimeSlot }}</div>
+          <div class="text-sm text-gray-500">{{ collection.collectionAddress }}</div>
+        </div>
+        <div class="flex space-x-2">
+            <div *ngIf="loggedInUser.role === 'particular'" class="flex space-x-2">
+              <button *ngIf="collection.status === 'pending'" (click)="onEdit(collection)" class="text-indigo-600 hover:text-indigo-900">Edit</button>
+              <button *ngIf="collection.status === 'pending'" (click)="onDelete(collection.id)" class="text-red-600 hover:text-red-900">Delete</button>
+            </div>
+            <button *ngIf="collection.status === 'pending'" (click)="goToDetails(collection)" class="text-teal-300 hover:text-teal-600">More</button>
+        </div>
+      </div>
+    </div>
+  </div>

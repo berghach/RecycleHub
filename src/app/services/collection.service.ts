@@ -13,6 +13,11 @@ export class CollectionService {
     return this.localStorageService.getItem(this.collectionsKey) || [];
   }
 
+  getCollectionsByUser(user: any): any[] {
+    const collections = this.getCollections();
+    return collections.filter((collection: any) => collection.userId === user.id);
+  }
+
   getCollectionById(id: number): any {
     const collections = this.getCollections();
     return collections.find((collection: any) => collection.id === id);
