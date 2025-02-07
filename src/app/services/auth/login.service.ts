@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { tap, delay } from 'rxjs/operators';
 import { HashService } from '../hash.service.service';
 import { LocalStorageService } from '../local-storage.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class LoginService {
   constructor(
     private localStorageService: LocalStorageService,
     private hashService: HashService,
+    private router: Router
   ) { }
 
   async login(email: string, password: string): Promise<Observable<boolean>> {
@@ -44,7 +46,8 @@ export class LoginService {
 
  logout(): void {
     this.isUserLoggedIn = false;
-    localStorage.removeItem('LoggedInUser'); 
+    localStorage.removeItem('LoggedInUser');
+    this.router.navigate(['/login']); 
     console.log('User logged out');
  }
 }
