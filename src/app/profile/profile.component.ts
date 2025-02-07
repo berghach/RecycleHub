@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LocalStorageService } from '../services/local-storage.service';
 import { CommonModule } from '@angular/common';
@@ -27,7 +27,6 @@ export class ProfileComponent {
     private fb: FormBuilder,
     private localStorageService: LocalStorageService,
     private profileService: ProfileService,
-    private router: Router,
     private loginService: LoginService
   ){
     this.user = this.localStorageService.getItem('LoggedInUser');
@@ -35,7 +34,7 @@ export class ProfileComponent {
     this.profileForm = this.fb.group({
       firstName: [this.user?.firstName, Validators.required],
       lastName: [this.user?.lastName, Validators.required],
-      email: [{ value: this.user?.email, disabled: true }, [Validators.required, Validators.email]],
+      email: [ this.user?.email , [Validators.required, Validators.email]],
       phone: [this.user?.phone, [Validators.required, Validators.pattern('^[0-9]*$')]],
       address: [this.user?.address, Validators.required],
       birthDate: [this.user?.birthDate, Validators.required],
@@ -79,6 +78,7 @@ export class ProfileComponent {
       await this.profileService.changePassword(newPassword);
       this.isChangingPassword = false;
       this.passwordForm.reset();
+      this.loginService.logout();
     } else {
       console.log('Password Form Invalid', this.passwordForm.value);
     }
@@ -87,7 +87,5 @@ export class ProfileComponent {
   onDeleteProfile(): void {
     this.profileService.deleteUser();
     this.loginService.logout();
-    this.router.navigate(['/register']);
   }
-
 }

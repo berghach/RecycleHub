@@ -27,6 +27,10 @@ export class ProfileService {
   }
 
   deleteUser(): void {
+    let users = this.localStorageService.getItem('users') || [];
+    const user = this.getUser();
+    users = users.filter((u: any) => u.id !== user.id);
+    this.localStorageService.setItem('users', users);
     this.localStorageService.removeItem('LoggedInUser');
   }
 
