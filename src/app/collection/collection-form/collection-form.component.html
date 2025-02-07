@@ -1,0 +1,60 @@
+<div class="max-w-xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold mb-6 text-center">{{ isEditMode ? 'Edit Collection Request' : 'Add Collection Request' }}</h2>
+  
+    <form [formGroup]="collectionForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label for="wasteType" class="block text-sm font-medium text-gray-700">Type of Waste</label>
+        <select id="wasteType" formControlName="wasteType" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <option value="plastic">Plastic</option>
+          <option value="glass">Glass</option>
+          <option value="paper">Paper</option>
+          <option value="metal">Metal</option>
+        </select>
+      </div>
+  
+      <div class="mb-4">
+        <label for="photos" class="block text-sm font-medium text-gray-700">Photos (optional)</label>
+        <input id="photos" formControlName="photos" type="file" multiple class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      </div>
+  
+      <div class="mb-4">
+        <label for="estimatedWeight" class="block text-sm font-medium text-gray-700">Estimated Weight (g)</label>
+        <input id="estimatedWeight" formControlName="estimatedWeight" type="number" min="1000" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      </div>
+  
+      <div class="mb-4">
+        <label for="collectionAddress" class="block text-sm font-medium text-gray-700">Collection Address</label>
+        <input id="collectionAddress" formControlName="collectionAddress" type="text" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      </div>
+  
+      <div class="mb-4">
+        <label for="collectionDate" class="block text-sm font-medium text-gray-700">Desired Date</label>
+        <input id="collectionDate" formControlName="collectionDate" type="date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      </div>
+  
+      <div class="mb-4">
+        <label for="collectionTimeSlot" class="block text-sm font-medium text-gray-700">Desired Time Slot</label>
+        <select id="collectionTimeSlot" formControlName="collectionTimeSlot" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <option value="09:00-10:00">09:00-10:00</option>
+          <option value="10:00-11:00">10:00-11:00</option>
+          <option value="11:00-12:00">11:00-12:00</option>
+          <option value="12:00-13:00">12:00-13:00</option>
+          <option value="13:00-14:00">13:00-14:00</option>
+          <option value="14:00-15:00">14:00-15:00</option>
+          <option value="15:00-16:00">15:00-16:00</option>
+          <option value="16:00-17:00">16:00-17:00</option>
+          <option value="17:00-18:00">17:00-18:00</option>
+        </select>
+      </div>
+  
+      <div class="mb-4">
+        <label for="additionalNotes" class="block text-sm font-medium text-gray-700">Additional Notes (optional)</label>
+        <textarea id="additionalNotes" formControlName="additionalNotes" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+      </div>
+  
+      <div class="flex justify-end space-x-4">
+        <button type="button" (click)="onCancel()" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Cancel</button>
+        <button type="submit" [disabled]="collectionForm.invalid" class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">{{ isEditMode ? 'Save Changes' : 'Submit Request' }}</button>
+      </div>
+    </form>
+  </div>
