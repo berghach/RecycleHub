@@ -10,6 +10,9 @@
           <option value="paper">Paper</option>
           <option value="metal">Metal</option>
         </select>
+        <div *ngIf="collectionForm.get('wasteType')?.touched && collectionForm.get('wasteType')?.invalid" class="text-red-500 text-sm">
+            Waste type is required.
+        </div>
       </div>
   
       <div class="mb-4">
@@ -20,16 +23,26 @@
       <div class="mb-4">
         <label for="estimatedWeight" class="block text-sm font-medium text-gray-700">Estimated Weight (g)</label>
         <input id="estimatedWeight" formControlName="estimatedWeight" type="number" min="1000" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <div *ngIf="collectionForm.get('estimatedWeight')?.touched && collectionForm.get('estimatedWeight')?.invalid" class="text-red-500 text-sm">
+            <div *ngIf="collectionForm.get('estimatedWeight')?.errors?.['required']">Estimated weight is required.</div>
+            <div *ngIf="collectionForm.get('estimatedWeight')?.errors?.['min']">Minimum weight is 1000g.</div>
+        </div>
       </div>
   
       <div class="mb-4">
         <label for="collectionAddress" class="block text-sm font-medium text-gray-700">Collection Address</label>
         <input id="collectionAddress" formControlName="collectionAddress" type="text" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <div *ngIf="collectionForm.get('collectionAddress')?.touched && collectionForm.get('collectionAddress')?.invalid" class="text-red-500 text-sm">
+            Collection address is required.
+        </div>
       </div>
   
       <div class="mb-4">
         <label for="collectionDate" class="block text-sm font-medium text-gray-700">Desired Date</label>
         <input id="collectionDate" formControlName="collectionDate" type="date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <div *ngIf="collectionForm.get('collectionDate')?.touched && collectionForm.get('collectionDate')?.invalid" class="text-red-500 text-sm">
+            Collection date is required.
+        </div>
       </div>
   
       <div class="mb-4">
@@ -45,6 +58,9 @@
           <option value="16:00-17:00">16:00-17:00</option>
           <option value="17:00-18:00">17:00-18:00</option>
         </select>
+        <div *ngIf="collectionForm.get('collectionTimeSlot')?.touched && collectionForm.get('collectionTimeSlot')?.invalid" class="text-red-500 text-sm">
+            Time slot is required.
+        </div>
       </div>
   
       <div class="mb-4">
