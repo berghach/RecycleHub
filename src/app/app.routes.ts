@@ -14,6 +14,7 @@ export const routes: Routes = [
 
     { path: 'collections', component: CollectionsListComponent, canActivate: [AuthGuard] },
     { path: 'collection/request/:id', component: CollectionFormComponent, canActivate: [ParticularGuard] },
+    { path: 'collection/request/delete/:id', component: CollectionFormComponent, canActivate: [ParticularGuard] },
     { path: 'collection/request-detail/:id', component: CollectionDetailComponent, canActivate: [AuthGuard] },
     
     { path: 'register', component: RegisterComponent },
